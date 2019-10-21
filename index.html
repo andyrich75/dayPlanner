@@ -19,6 +19,39 @@
 </head>
 
 <body>
->
+    <header class="jumbotron">
+      <h1 class="display-3">Work Day Scheduler</h1>
+      <p class="lead">A simple calendar app for scheduling your work day</p>
+      <p id="currentDay" class="lead"></p>
+    </header>
+    <div class="container">
+      <!-- Timeblocks go here -->
+      <div class="row" data-time="9">
+        <div class="col-sm-4">
+          <div class="hour">
+            9:00 AM
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <input class="task input" data-time="9" id="task_9" type="text">
+        </div>
+        <div class="col-sm-4">
+          <input class="saveBtn" type="submit" data-time="9">
+        </div>
+      </div>
+      <div class="row" data-time="10">
+        <div class="col-sm-4">
+          <div class="hour">
+            10:00 AM
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <input class="task input" data-time="10" id="task_10" type="text">
+        </div>
+        <div class="col-sm-4">
+          <input class="saveBtn" type="submit" data-time="10">
+        </div>
+      </div>
+</body>
 
 </html>
