@@ -29,8 +29,8 @@ function todaysDate() {
       $(".container").append(block);
     }
   }
-//on document ready
-$(document).ready(function() {
+  //on document ready below functions I got help from co-worker
+  $(document).ready(function() {
     //on button save, set item into local storage
     $(".saveBtn").on("click", function() {
       //save THIS input and time based on data hour attr into local storage
@@ -44,31 +44,47 @@ $(document).ready(function() {
       localStorage.setItem("val-" + time, scheduleInput);
     });
   });
-
-    $(".saveBtn").on("click", function (event) {
-        event.preventDefault();
-
-        var time = $(event.target).data("time");
-        var task = $("#task_" + time).val();
-
-        console.log("The click button is working");
-        /*if input is not empty or null, then*/
-        if (task !== "") {
-            console.log(task);
-
-            /*saves to local storage*/
-            localStorage.setItem(time, task);
-        } else {
-            alert("Please, tell us all about your busy life!");
-        }  
+  
+  //function to render schedule and pulling down the items from local storage and setting them as text and data attribute to textarea
+  function getSchedule() {
+    //for each timeblock, pass through an index
+    $(".time-block").each(function(i) {
+      //save that index as a variable plus 9 to match the data attributes on the hour
+      var hourIndex = i + 9;
+      //save the localstorage with the unique identifier to a variable
+      var saved = localStorage.getItem("val-" + hourIndex);
+      //set the variable for the color of the blocks
+      var colorBasedomTime =  
+      $(this)
+      .find(".hour")
+      .attr("data-hour", hourIndex)
+      .siblings(".description");
+      console.log(colorBasedomTime);
+      //if saved is NOT empty
+      if (saved !== null) {
+        //set the text from the local storage
+        $(this)
+          .find(".hour")
+          .attr("data-hour", hourIndex)
+          .siblings(".description")
+          .text(saved);
+      }
+      //else nothing
+      //if the hour index is equal to the current hour
+      if (hourIndex === moment().format('H')){
+        //give class present
+        colorBasedomTime.attr('class', 'description present');
+        //else if hour is GREATER than current hour
+      }else if(hourIndex > moment().format('H')){
+        //set time to the future
+        colorBasedomTime.attr('class', 'description future');
+      }else{
+        //else it must be in the past so set to the past
+        colorBasedomTime.attr('class', 'description past');
+      }
     });
-//function to render schedule and pulling down the items from local storage and setting them as text and data attribute to textarea
-funtion getSchedule() {
-//each timeblock , pass over an index 
-$(".time-block").each(function(i) {
-    //save index as variable and add 9 hours for work day
-    var hourIndex = i + 9;
-    //local storage for variable to identify
-    var saved =localStorage.getItem("val-" + hourIndex);
-})
-}
+  }
+  //call all the functions!
+  todaysDate();
+  displayNewSchedule();
+  getSchedule();
