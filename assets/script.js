@@ -1,15 +1,49 @@
-$(document).ready(function(){
-    console.log("JQ working");
-    /*This is the logic for the save button for each hour*/
-    /*click event that*/
-    /*I got help with this; the .key method is new learning for me. It helps me to make the hour value a variable
-    so that it only need the logic once*/
-
-    for (var i = 0; i < localStorage.length; ++i ) {
-        console.log("key", localStorage.key(i)) 
-        console.log("value", localStorage.getItem(localStorage.key(i)) );
-        $("#task_" + localStorage.key(i)).val(localStorage.getItem(localStorage.key(i)));
-    }    
+//function for setting the day of the week
+function todaysDate() {
+    //Use Moment.js to call day of the week
+    var currentDay = moment().format("dddd");
+    var currentDate = moment().format("MMMM Do YYYY");
+    $("#currentDay").text(currentDay + " " + currentDate);
+    //print to dom current day
+  }
+  //funtion for dynamically creating input fields
+  function displayNewSchedule() {
+    //for loop to loop through 9 to 5 in 24 hour format
+    for (var i = 9; i < 18; i++) {
+      var block = $('<div class="time-block"></div>');
+      var row = $('<div class="row"></div>');
+      var hour = $('<div class="hour"></div>');
+      var description = $('<textarea class="description"></textarea> ');
+      var saveBtn = $('<button class="saveBtn">Save</button>');
+      //set the data attribute sub index to 24 hour format
+      hour.attr("data-hour", i);
+      //set the text to sub index to 
+      hour.text(
+        moment()
+          .hour(i)
+          .format("h A")
+      );
+      //append everything together
+      row.append(hour, description, saveBtn);
+      block.append(row);
+      $(".container").append(block);
+    }
+  }
+//on document ready
+$(document).ready(function() {
+    //on button save, set item into local storage
+    $(".saveBtn").on("click", function() {
+      //save THIS input and time based on data hour attr into local storage
+      var scheduleInput = $(this)
+        .siblings(".description")
+        .val();
+      var time = $(this)
+        .siblings(".hour")
+        .attr("data-hour");
+        //set the key value pairs based on these inputs, with unique identifier
+      localStorage.setItem("val-" + time, scheduleInput);
+    });
+  });
 
     $(".saveBtn").on("click", function (event) {
         event.preventDefault();
@@ -28,19 +62,10 @@ $(document).ready(function(){
             alert("Please, tell us all about your busy life!");
         }  
     });
-
-    /*This is the logic to check moment.js for the current time*/
-    /*compares current time to row data attribute*/
-    var formTime = $(".row").data("time");
-    var currentTime = moment();
-    var rowTime = moment({hour:formTime}); 
-
-    /*if value of id > current hour, future*/
-    if (currentTime.isBefore(rowTime)) {
-        $(".row").css("background-color" , "light-blue");
-    }
-    /*if value of id < current hour, past*/
-    else {$(".row").css("background-color" , "light-yellow")};
-    
-    
-});
+//function to render schedule and pulling down the items from local storage and setting them as text and data attribute to textarea
+funtion getSchedule() {
+//each timeblock , pass over an index 
+$(".time-block").each(function(i) {
+    var hourIndex = i + 9;
+})
+}
