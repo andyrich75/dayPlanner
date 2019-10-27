@@ -66,6 +66,9 @@ $(document).ready(function() {
 funtion getSchedule() {
 //each timeblock , pass over an index 
 $(".time-block").each(function(i) {
+    //save index as variable and add 9 hours for work day
     var hourIndex = i + 9;
+    //local storage for variable to identify
+    var saved =localStorage.getItem("val-" + hourIndex);
 })
 }
